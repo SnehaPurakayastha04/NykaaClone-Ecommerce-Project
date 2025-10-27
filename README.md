@@ -1,16 +1,39 @@
-# React + Vite
+# Nykaa Clone – Full Stack E-commerce Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack e-commerce application inspired by Nykaa, built using React (frontend) and Flask (backend).
+The project supports user authentication, product listing, and dynamic API integration — deployed seamlessly using Render.
 
-Currently, two official plugins are available:
+# Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Try it here : https://trendify-nykaclone.netlify.app
 
-## React Compiler
+# Setup Instructions (Local Development)
+## Clone the Repository
+git clone https://github.com/<your-username>/NykaaClone-Ecommerce-Website.git
+cd NykaaClone-Ecommerce-Website
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Setup Backend
+cd backend
+python -m venv venv
+source venv/bin/activate     # (on Windows: venv\Scripts\activate)
+pip install -r requirements.txt
+python app.py
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Setup Frontend
+cd frontend
+npm install
+npm run dev
+
+# Features
+
+- User Authentication — Signup and Login using secure JWT tokens
+- Product Listing — View a wide range of beauty & skincare products
+- Search & Filter — Find products easily by name or category
+- Add to Cart — Add or remove items dynamically
+- Cart Summary & Billing — Automatic total calculation with itemized details
+- Checkout — Review and place your order
+
+# Author
+
+Sneha Purakayastha(https://github.com/SnehaPurakayastha04)
