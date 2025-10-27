@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -136,6 +137,7 @@ def signup():
             "email": new_user.email
         }
     })
+
 
 @app.route("/api/login", methods=["POST"])
 def login():
@@ -412,4 +414,5 @@ def checkout(current_user):
     })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port=int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
