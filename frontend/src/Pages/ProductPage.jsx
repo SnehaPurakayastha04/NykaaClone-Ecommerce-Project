@@ -19,7 +19,7 @@ const ProductPage = ({ filters, searchTerm, onFilterChange }) => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("http://127.0.0.1:5000/api/products", {
+    axios.get("https://nykaaclone-backend.onrender.com/api/products", {
     params: {
         category: filters.category,
         brand: filters.brand,

@@ -26,7 +26,7 @@ const fetchCart = () => {
       return;
     }
 
-    axios.get("http://127.0.0.1:5000/api/cart", {
+    axios.get("https://nykaaclone-backend.onrender.com/api/cart", {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ const fetchCart = () => {
   const handleRemove = (id) => {
     const token = localStorage.getItem('token');
     
-    axios.delete(`http://127.0.0.1:5000/api/cart/${id}`, {
+    axios.delete(`https://nykaaclone-backend.onrender.com/api/cart/${id}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ const fetchCart = () => {
   const handleCheckout = () => {
     const token = localStorage.getItem('token');
     
-    axios.post("http://127.0.0.1:5000/api/checkout", {}, {
+    axios.post("https://nykaaclone-backend.onrender.com/api/checkout", {}, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'

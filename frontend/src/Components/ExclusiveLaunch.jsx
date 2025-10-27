@@ -16,7 +16,7 @@ export default function Exclusivelaunch({launchData}){
       }
 
       const response = await axios.post(
-        "http://127.0.0.1:5000/api/cart", 
+        "https://nykaaclone-backend.onrender.com/api/cart", 
         { 
           product_id: product.id, 
           quantity: 1 

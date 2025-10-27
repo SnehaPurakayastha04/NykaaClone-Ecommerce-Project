@@ -24,13 +24,13 @@ const ReviewPage = () => {
     try {
       setLoading(true);
       
-      const productResponse = await axios.get(`http://127.0.0.1:5000/api/products`);
+      const productResponse = await axios.get(`https://nykaaclone-backend.onrender.com/api/products`);
       const products = productResponse.data;
       const currentProduct = products.find(p => p.id === parseInt(productId));
       setProduct(currentProduct);
 
   
-      const reviewsResponse = await axios.get(`http://127.0.0.1:5000/api/reviews?product_id=${productId}`);
+      const reviewsResponse = await axios.get(`https://nykaaclone-backend.onrender.com/api/reviews?product_id=${productId}`);
       setReviews(reviewsResponse.data);
 
     } catch (error) {
@@ -54,7 +54,7 @@ const ReviewPage = () => {
         comment: newReview.comment
       };
 
-      await axios.post("http://127.0.0.1:5000/api/reviews", reviewData);
+      await axios.post("https://nykaaclone-backend.onrender.com/api/reviews", reviewData);
       
       setNewReview({ rating: 5, comment: "", user_name: "" });
       setShowReviewForm(false);
