@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { data, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Signup.css";
 
 const Signup = () => {
@@ -11,7 +11,7 @@ const Signup = () => {
     confirmPassword: "",
     agreeToTerms: false,
   });
-
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
   const [isSuccess, setIsSuccess] = useState(false); 
@@ -87,9 +87,7 @@ const Signup = () => {
       if (response.ok) {
         setIsSuccess(true);
         console.log('Signup successful:', data);
-        setTimeout(() => {
-            window.location.href = '/login';
-          }, 3000);
+        setTimeout(() => navigate("/login"), 3000);
       } else {
         console.error('Signup error:', data.error);
         setServerError(data.error || "Signup failed")
