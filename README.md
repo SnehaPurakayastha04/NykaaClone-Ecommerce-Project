@@ -9,21 +9,21 @@ Try it here : https://trendify-nykaclone.netlify.app
 
 # Setup Instructions (Local Development)
 ## Clone the Repository
-git clone https://github.com/<your-username>/NykaaClone-Ecommerce-Website.git
-cd NykaaClone-Ecommerce-Website
+- git clone https://github.com/SnehaPurakayastha04/NykaaClone-Ecommerce-Website.git
+- cd NykaaClone-Ecommerce-Website
 
 ## Setup Backend
-cd backend
-python -m venv venv
-source venv/bin/activate     # (on Windows: venv\Scripts\activate)
-pip install -r requirements.txt
-python app.py
+- cd backend
+- python -m venv venv
+- source venv/bin/activate     # (on Windows: venv\Scripts\activate)
+- pip install -r requirements.txt
+- python app.py
 
 
 ## Setup Frontend
-cd frontend
-npm install
-npm run dev
+- cd frontend
+- npm install
+- npm run dev
 
 # Features
 
