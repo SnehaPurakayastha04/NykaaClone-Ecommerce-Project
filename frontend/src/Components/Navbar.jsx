@@ -3,16 +3,13 @@ import "./Navbar.css";
 import { useState } from "react";
 export default function Navbar({searchTerm, onSearchChange, onFilterChange}){
     const handleSearchClick = () =>{
-        onSearchChange(searchTerm);
-    };
-     const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            handleSearchClick();
+        if (searchTerm.trim()) {
+            onFilterChange(searchTerm);
         }
     };
     return(
         <div className="navbar">
-            <div className="logo"><img src="https://images.seeklogo.com/logo-png/35/1/nykaa-logo-png_seeklogo-358073.png" alt="NykaaLogo" /></div>
+            <div className="logo-navbar"><img src="https://images.seeklogo.com/logo-png/35/1/nykaa-logo-png_seeklogo-358073.png" alt="NykaaLogo" /></div>
             <div className="nav-links">
                 <ul>
                     <li className="nav-item">Categories
@@ -26,7 +23,7 @@ export default function Navbar({searchTerm, onSearchChange, onFilterChange}){
             </div>
             <div className="search-bar">
                 <input type="text" id="search-bar" placeholder="Search for products, brands,.." value={searchTerm} onChange={(e) => onSearchChange(e.target.value)} 
-                onKeyPress={handleKeyPress}/>
+                onKeyDown={(e) => e.key === "Enter" && handleSearchClick}/>
                 <button type="submit" onClick={handleSearchClick}>Search</button>
             </div>
             <div className="sign-in">

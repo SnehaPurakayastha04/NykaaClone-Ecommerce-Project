@@ -18,6 +18,7 @@ const ProductPage = ({ filters, searchTerm, onFilterChange }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     axios.get("http://127.0.0.1:5000/api/products", {
     params: {
         category: filters.category,
@@ -78,17 +79,21 @@ const ProductPage = ({ filters, searchTerm, onFilterChange }) => {
         setLoading(false);
       })
       .catch(err => console.log(err));
-  }, []);
+  }, [filters, searchTerm]);
 
   const handleFilterChange = (filters) => {
     const sortProducts = (products, sortType) => {
+      const parsePrice = (price) => {
+        if (!price) return 0;
+        return parseFloat(price.toString().replace(/[^0-9.-]+/g, ""));
+      };
       switch (sortType) {
         case "price_low":
-          return [...products].sort((a, b) => a.price - b.price);
+          return [...products].sort((a, b) =>parsePrice(a.price) - parsePrice(b.price));
         case "price_high":
-          return [...products].sort((a, b) => b.price - a.price);
+          return [...products].sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
         case "discount":
-          return [...products].sort((a, b) => b.discount - a.discount);
+          return [...products].sort((a, b) => (b.discount || 0) - (a.discount || 0));
         default:
           return products;
       }
@@ -112,13 +117,14 @@ const ProductPage = ({ filters, searchTerm, onFilterChange }) => {
     const filteredBrands = brandsDataOriginal
       .map(brand => ({
         ...brand,
-        products: brand.products.filter(p =>
+        products: sortProducts( brand.products.filter(p =>
           (p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             p.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
             (p.category && p.category.toLowerCase().includes(searchTerm.toLowerCase()))) &&
           (!filters.category || p.category === filters.category) &&
           (!filters.brand || p.brand === filters.brand)
-        )
+        ),
+        filters.sort)
       }))
       .filter(brand => brand.products.length > 0);
 
@@ -148,6 +154,7 @@ const ProductPage = ({ filters, searchTerm, onFilterChange }) => {
 
   return (
     <div className="product-page">
+      {!searchTerm &&( <>
       <div className="diwali-marquee">
         <div className="marquee-content">
           <span className="marquee-text"> Diwali Sale Is Live! </span>
@@ -168,16 +175,16 @@ const ProductPage = ({ filters, searchTerm, onFilterChange }) => {
           ))}
         </Slider>
       </div>
+      </>)}
 
-      {/* Filter Component */}
+  
       <Filter onFilterChange={handleFilterChange} products={allProducts} />
 
-      {/* Exclusive Launch */}
+
       {exclusiveLaunchData && exclusiveLaunchData.products.length > 0 &&
         <Exclusivelaunch launchData={exclusiveLaunchData} />
       }
 
-      {/* Brand Sections */}
       {brandsData?.map(brand => (
         brand.products.length > 0 &&
         <BrandSection

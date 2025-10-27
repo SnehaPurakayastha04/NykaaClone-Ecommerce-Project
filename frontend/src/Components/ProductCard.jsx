@@ -1,18 +1,51 @@
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import "./ProductCard.css";
 
 const ProductCard = ({ product }) => {
+const navigate = useNavigate();
 
-  const handleAddToCart = () => {
-    axios.post("http://127.0.0.1:5000/api/cart", { id: product.id, quantity: 1 })
-      .then(res => {
-        alert("Added to cart!");
-      })
-      .catch(err => {console.log(err);
-        alert("Failed to add to cart");
-      });
+  const handleAddToCart = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        alert('Please login to add items to cart');
+        return;
+      }
+
+      const response = await axios.post(
+        "http://127.0.0.1:5000/api/cart", 
+        { 
+          product_id: product.id, 
+          quantity: 1 
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+       alert("Added to cart successfully!");
+      console.log('Cart response:', response.data);
+      
+    } catch (err) {
+      console.log('Cart error:', err);
+      if (err.response) {
+        // Server responded with error status
+        alert(`Failed to add to cart: ${err.response.data.message}`);
+      } else if (err.request) {
+        // Request was made but no response received
+        alert('Failed to add to cart: Network error');
+      } else {
+        // Other errors
+        alert('Failed to add to cart');
+      }
+    }
   };
+  
   return (
     <div className="product-card">
       <div className="product-image">
@@ -42,8 +75,16 @@ const ProductCard = ({ product }) => {
             <span className="original-price">₹{product.originalPrice}</span>
           )}
         </div>
-        
+        <div className="product-buttons">
+        <button 
+  className="view-reviews-btn"
+  onClick={() => navigate(`/product/${product.id}/reviews`)}
+>
+  View Reviews
+</button>
+
         <button className="add-to-cart-btn" onClick={handleAddToCart}>Add to Cart</button>
+        </div>
       </div>
     </div>
   );

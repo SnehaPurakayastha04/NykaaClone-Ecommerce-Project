@@ -19,9 +19,9 @@ const Login = () => {
       [name]: type === 'checkbox' ? checked : value
     }));
   };
-
- const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
+  setServerError(""); 
   try {
     const response = await fetch('http://localhost:5000/api/login', { 
       method: 'POST',
@@ -29,17 +29,28 @@ const Login = () => {
       body: JSON.stringify({ email: formData.email, password: formData.password })
     });
     const data = await response.json();
+    
     if (response.ok) {
       setIsSuccess(true);
       console.log('Login successful', data);
-       setTimeout(() => {
-          window.location.href = '/';
-        }, 2000);
+      
+      // Store the token and user data
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 2000);
     } else {
-      console.error('Login failed', data.error);
-      setServerError(data.error || "Login failed. Please check your credentials");
-    
+      console.error('Login failed', data);
+      if (data.message === "User not verified") {
+        setServerError("No account found with this email. Please sign up.");
+      } else if (data.message === "Incorrect credentials") {
+        setServerError("Incorrect email or password. Please try again.");
+      } else {
+      setServerError(data.message || "Login failed. Please check your credentials"); 
     }
+  }
   } catch(error) {
     console.error('Network error:', error);
     setServerError("Network error. Please try again");
@@ -124,6 +135,7 @@ if (isSuccess) {
             <button type="submit" className="login-btn">
               Sign In
             </button>
+            {serverError && <div className="server-error-message">{serverError}</div>}
           </form>
           <div className="signup-link">
             Don't have an account? <Link to="/signup">Sign up</Link>

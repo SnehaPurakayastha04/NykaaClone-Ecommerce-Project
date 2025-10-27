@@ -125,7 +125,6 @@ if (isSuccess) {
     <div className="signup-page">
       <div className="signup-container">
         <div className="signup-card">
-          {/* Header */}
           <div className="signup-header">
             <div className="logo">
               <img src="https://images.seeklogo.com/logo-png/35/1/nykaa-logo-png_seeklogo-358073.png" alt="Nykaa" />
@@ -133,8 +132,6 @@ if (isSuccess) {
             <h2>Create Your Account</h2>
             <p>Join us and discover amazing beauty products</p>
           </div>
-
-          {/* Signup Form */}
           <form className="signup-form" onSubmit={handleSubmit} noValidate>
             <div className="name-fields">
               <div className="form-group">
@@ -244,7 +241,6 @@ if (isSuccess) {
             </button>
           </form>
 
-          {/* Login Link */}
           <div className="login-link">
             Already have an account? <Link to="/login">Sign in</Link>
           </div>

@@ -10,37 +10,89 @@ const CartPage = () => {
   const navigate= useNavigate();
 
 
-  const fetchCart = () => {
-    axios.get("http://127.0.0.1:5000/api/cart")
-      .then(res => {
-        setCartItems(res.data);
-        const sum = res.data.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-setTotal(sum);
-
-      })
-      .catch(err => console.log(err));
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    };
   };
+const fetchCart = () => {
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      alert('Please login to view your cart');
+      navigate('/login');
+      return;
+    }
 
+    axios.get("http://127.0.0.1:5000/api/cart", {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => {
+      setCartItems(res.data);
+      const sum = res.data.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+      setTotal(sum);
+    })
+    .catch(err => {
+      console.log(err);
+      if (err.response?.status === 401) {
+        alert('Please login again');
+        navigate('/login');
+      }
+    });
+  };
+  
   useEffect(() => {
     fetchCart();
   }, []);
 
   const handleRemove = (id) => {
-    axios.delete(`http://127.0.0.1:5000/api/cart/${id}`)
-      .then(res => {
-        fetchCart();
-      })
-      .catch(err => console.log(err));
+    const token = localStorage.getItem('token');
+    
+    axios.delete(`http://127.0.0.1:5000/api/cart/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => {
+      fetchCart();
+    })
+    .catch(err => {
+      console.log(err);
+      if (err.response?.status === 401) {
+        alert('Please login again');
+        navigate('/login');
+      }
+    });
   };
-
   const handleCheckout = () => {
-    axios.post("http://127.0.0.1:5000/api/checkout")
-      .then(res => {
-        alert("Order placed successfully!");
-        setCartItems([]);
-        setTotal(0);
-      })
-      .catch(err => alert(err.response.data.message));
+    const token = localStorage.getItem('token');
+    
+    axios.post("http://127.0.0.1:5000/api/checkout", {}, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => {
+      alert("Order placed successfully!");
+      setCartItems([]);
+      setTotal(0);
+    })
+    .catch(err => {
+      console.log(err);
+      if (err.response?.status === 401) {
+        alert('Please login again');
+        navigate('/login');
+      } else {
+        alert(err.response?.data?.message || "Checkout failed");
+      }
+    });
   };
   const finalTotal = (total >= 499 ? total : total + 99) + total * 0.18;
 

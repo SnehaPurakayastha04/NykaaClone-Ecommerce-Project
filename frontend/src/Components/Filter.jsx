@@ -8,7 +8,6 @@ const Filter = ({ onFilterChange, products }) => {
     sort: ''
   });
 
-  // Extract unique categories and brands from products
   const categories = [...new Set(products.map(p => p.category))];
   const brands = [...new Set(products.map(p => p.brand))];
 
@@ -34,7 +33,7 @@ const Filter = ({ onFilterChange, products }) => {
         <button className="clear-btn" onClick={clearFilters}>Clear All</button>
       </div>
 
-      {/* Category Filter */}
+
       <div className="filter-group">
         <label>Category</label>
         <select 
@@ -48,7 +47,7 @@ const Filter = ({ onFilterChange, products }) => {
         </select>
       </div>
 
-      {/* Brand Filter */}
+  
       <div className="filter-group">
         <label>Brand</label>
         <select 
@@ -62,7 +61,7 @@ const Filter = ({ onFilterChange, products }) => {
         </select>
       </div>
 
-      {/* Sort Filter */}
+  
       <div className="filter-group">
         <label>Sort By</label>
         <select 

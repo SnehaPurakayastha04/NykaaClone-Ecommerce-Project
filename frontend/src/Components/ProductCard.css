@@ -108,3 +108,35 @@
 .add-to-cart-btn:hover {
   background: #c60061;
 }
+/* View Reviews Button */
+.view-reviews-btn {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  color: #e80071;
+  border: 2px solid #e80071;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin-bottom: 8px;
+}
+
+.view-reviews-btn:hover {
+  background: #e80071;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(232, 0, 113, 0.3);
+}
+/* If you want the buttons side by side */
+.product-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.product-buttons .view-reviews-btn,
+.product-buttons .add-to-cart-btn {
+  flex: 1;
+  margin-bottom: 0;
+}

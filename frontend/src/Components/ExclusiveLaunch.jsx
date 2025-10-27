@@ -1,18 +1,52 @@
 import "./Exclusivelaunch.css"
 import axios from "axios";
 import React, {useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 export default function Exclusivelaunch({launchData}){
-  const handleAddToCart = (product) => {
-  axios.post("http://127.0.0.1:5000/api/cart", { id: product.id, quantity: 1 })
-    .then(() => alert(`Item added to cart!`))
-    .catch((err) => {
-      console.error(err);
-      alert("Failed to add to cart");
-    });
-};
+
+  const navigate = useNavigate();
+  const handleAddToCart = async(product) => {
+
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        alert('Please login to add items to cart');
+        return;
+      }
+
+      const response = await axios.post(
+        "http://127.0.0.1:5000/api/cart", 
+        { 
+          product_id: product.id, 
+          quantity: 1 
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`, 
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      
+      alert(`Item added to cart successfully!`);
+      console.log('Cart response:', response.data);
+      } catch (err) {
+      console.error('Cart error:', err);
+      if (err.response) {
+        alert(`Failed to add to cart: ${err.response.data.message}`);
+      } else if (err.request) {
+        alert('Failed to add to cart: Network error');
+      } else {
+        alert('Failed to add to cart');
+      }
+    }
+  };
+
   useEffect(() => {
     console.log("Launch data products:", launchData.products);
   }, [launchData]);
+      
     return (
     <div className="exclusive-launch">
       <div className="launch-header">
@@ -57,7 +91,12 @@ export default function Exclusivelaunch({launchData}){
                 <span className="current-price">₹{product.price}</span>
                 <span className="original-price">₹{product.originalPrice}</span>
               </div>
-              
+              <button 
+                className="view-reviews-btn"
+                onClick={() => navigate(`/product/${product.id}/reviews`)}
+              >
+                View Reviews
+              </button>
               <button className="shop-now-btn" onClick={()=>handleAddToCart(product)}>Add To Cart</button>
               </div>
           </div>

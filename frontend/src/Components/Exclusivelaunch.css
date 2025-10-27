@@ -333,3 +333,30 @@
     font-size: 1rem;
   }
 }
+.launch-product-card .view-reviews-btn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.launch-product-card .view-reviews-btn:hover {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+.launch-product-card .product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Consistent spacing between buttons */
+}
